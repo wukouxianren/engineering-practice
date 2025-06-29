@@ -1,8 +1,19 @@
-# login.py
+# 修改后的login.py
+import hashlib
+
+def get_sha256(text):
+    """生成SHA256哈希值"""
+    return hashlib.sha256(text.encode()).hexdigest()
+
 def authenticate(username, password):
-    """简单认证函数"""
-    valid_users = {"admin": "123456", "user1": "password1"}
-    return valid_users.get(username) == password
+    """带加密的认证函数"""
+    valid_users = {
+        "admin": get_sha256("123456"),
+        "user1": get_sha256("password1")
+    }
+    return valid_users.get(username) == get_sha256(password)
+
+# main函数保持不变...
 
 def main():
     print("=== 登录系统 ===")
