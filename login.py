@@ -8,7 +8,12 @@ def hash_password(password):
 
 def verify_password(password, hashed):
     """验证密码是否匹配"""
-    return bcrypt.checkpw(password.encode(), hashed)
+    try:
+        # bcrypt.checkpw 需要字节串输入
+        return bcrypt.checkpw(password.encode('utf-8'), hashed)
+    except Exception as e:
+        print(f"验证错误: {e}")
+        return False
 
 def main():
     # 显示炫酷标题
@@ -20,7 +25,7 @@ def main():
     
     # 预存储用户（实际应从数据库获取）
     valid_users = {
-        "admin": b'$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPVgaYl5O'  # 对应"secret"
+        "admin": b'$2b$12$cnpCK61P3PC7N3Gmjho2yuMPjzecyglPSx6OnPWn6j.XVWUxTyzge'  # 对应"secret"
     }
     
     stored_hash = valid_users.get(user)
