@@ -1,29 +1,32 @@
 # 修改后的login.py
-import hashlib
+import bcrypt
+import pyfiglet
 
-def get_sha256(text):
-    """生成SHA256哈希值"""
-    return hashlib.sha256(text.encode()).hexdigest()
+def hash_password(password):
+    """使用bcrypt生成安全哈希"""
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-def authenticate(username, password):
-    """带加密的认证函数"""
-    valid_users = {
-        "admin": get_sha256("123456"),
-        "user1": get_sha256("password1")
-    }
-    return valid_users.get(username) == get_sha256(password)
-
-# main函数保持不变...
+def verify_password(password, hashed):
+    """验证密码是否匹配"""
+    return bcrypt.checkpw(password.encode(), hashed)
 
 def main():
-    print("=== 登录系统 ===")
+    # 显示炫酷标题
+    print(pyfiglet.figlet_format("SECURE LOGIN"))
+    
+    print("="*30)
     user = input("用户名: ")
     pwd = input("密码: ")
     
-    if authenticate(user, pwd):
-        print("登录成功！")
+    # 预存储用户（实际应从数据库获取）
+    valid_users = {
+        "admin": b'$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPVgaYl5O'  # 对应"secret"
+    }
+    
+    stored_hash = valid_users.get(user)
+    if stored_hash and verify_password(pwd, stored_hash):
+        print("\n✅ 认证成功！安全访问授予")
     else:
-        print("用户名或密码错误")
-
+        print("\n❌ 认证失败！入侵警报")
 if __name__ == "__main__":
     main()
