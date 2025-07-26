@@ -1,0 +1,11 @@
+setup.py
+src/auth_system/__init__.py
+src/auth_system/authentication.py
+src/auth_system/cli.py
+src/auth_system/security.py
+src/auth_system.egg-info/PKG-INFO
+src/auth_system.egg-info/SOURCES.txt
+src/auth_system.egg-info/dependency_links.txt
+src/auth_system.egg-info/entry_points.txt
+src/auth_system.egg-info/top_level.txt
+tests/test_auth.py

@@ -1,0 +1,2 @@
+[console_scripts]
+auth-login = auth_system.cli:run_login
